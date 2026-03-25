@@ -1,10 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shopping Website</title>
+  <title>Shopping Store</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    .product {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+      display: inline-block;
+      width: 200px;
+    }
+    button {
+      background: green;
+      color: white;
+      border: none;
+      padding: 5px;
+      cursor: pointer;
+    }
+    #cart {
+      margin-top: 20px;
+      border-top: 2px solid black;
+      padding-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>🛒 Mera Shopping Website</h1>
-  <p>Welcome! Yeh mera first online store hai.</p>
+
+<h1>🛒 My Shopping Store</h1>
+
+<div id="products"></div>
+
+<div id="cart">
+  <h2>🧾 Cart</h2>
+  <ul id="cart-items"></ul>
+  <h3>Total: ₹<span id="total">0</span></h3>
+</div>
+
+<script>
+  const products = [
+    {name: "Mobile", price: 15000},
+    {name: "Charger", price: 500},
+    {name: "Headphones", price: 1200},
+    {name: "Laptop", price: 55000}
+  ];
+
+  let cart = [];
+
+  function displayProducts() {
+    const productDiv = document.getElementById("products");
+    products.forEach((p, index) => {
+      productDiv.innerHTML += `
+        <div class="product">
+          <h3>${p.name}</h3>
+          <p>₹${p.price}</p>
+          <button onclick="addToCart(${index})">Add to Cart</button>
+        </div>
+      `;
+    });
+  }
+
+  function addToCart(index) {
+    cart.push(products[index]);
+    updateCart();
+  }
+
+  function removeItem(i) {
+    cart.splice(i, 1);
+    updateCart();
+  }
+
+  function updateCart() {
+    let list = document.getElementById("cart-items");
+    let total = 0;
+    list.innerHTML = "";
+
+    cart.forEach((item, i) => {
+      total += item.price;
+      list.innerHTML += `
+        <li>
+          ${item.name} - ₹${item.price}
+          <button onclick="removeItem(${i})">❌</button>
+        </li>
+      `;
+    });
+
+    document.getElementById("total").innerText = total;
+  }
+
+  displayProducts();
+</script>
+
 </body>
 </html>
